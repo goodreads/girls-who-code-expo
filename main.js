@@ -4,36 +4,76 @@ import React, { PureComponent } from 'react';
 import { Text, View, StyleSheet, ListView, Image, Dimensions, Button, Alert, ScrollView, Picker, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { Constants, Svg } from 'expo';
 
+
+/* TODO 4: Add your review to the book! Create your complete review with a userName, userIcon and text. Use the sample review as an example. */
+const reviewsByBookTitle = {
+  "Terrier": [
+    {
+      reviewerName: "Laudys",
+      reviewerIcon: "https://images.gr-assets.com/users/1359481258p2/12020704.jpg",
+      text: "What is one word I can use to sum up the book hmm... probably AWESOME ! Seriously there isn't a lot of books that can do that (at least for me). Beka Cooper is the most kick butt, cool heroine I've encountered in all my reading days."
+    },
+    {
+      reviewerName: "Caroline",
+      reviewerIcon: "https://images.gr-assets.com/users/1179332091p2/35781.jpg",
+      text: "This was the last 'for fun' book I got to read before I started teaching last winter. Ever since I arbitrarily grabbed the first of Tamora Pierce's 'Circle of Magic' books off the library shelf two years ago, I've been hooked on the ways Pierce plays around with definitions of magic, power, heroes, and humanism...all within a medieval-ish context."
+    }
+  ]
+};
+
+const books = [
+  {
+    title: "Terrier",
+    cover: "https://images.gr-assets.com/books/1398029898l/13829.jpg",
+    author: {
+      name: "Tamora Pierce",
+      image: "https://images.gr-assets.com/authors/1209044273p8/8596.jpg"
+    },
+    publicationYear: "2006",
+    averageRating: "4.16",
+    ratingsCount: "49,053",
+    userRating: 0,
+    description: "Hundreds of years before Alanna first drew her sword in Tamora Pierce's memorable debut, Alanna: The First Adventure, Tortall had a heroine named Beka Cooper - a fierce young woman who fights crime in a world of magic. This is the beginning of her story, her legend, and her legacy....",
+  },
+  {
+    title: "Croak",
+    cover: "https://images.gr-assets.com/books/1479664293l/11836538.jpg",
+    author: {
+      name: "Gina Damico",
+      image: "https://images.gr-assets.com/authors/1317056611p2/4983109.jpg"
+    },
+    publicationYear: "2012",
+    averageRating: "3.93",
+    ratingsCount: "9,350",
+    description: "Hundreds of years before Alanna first drew her sword in Tamora Pierce's memorable debut, Alanna: The First Adventure, Tortall had a heroine named Beka Cooper - a fierce young woman who fights crime in a world of magic. This is the beginning of her story, her legend, and her legacy....",
+  }
+];
+
+// TODO change this to show the book you want
+const bookToShow = books[1];
+
 export default class App extends PureComponent {
   constructor() {
     super();
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-    /* TODO 4: Add your review to the book! Create your complete review with a userName, userIcon and text. Use the sample review as an example. */
-    this.state = {
-      dataSource: ds.cloneWithRows([
-        {userName: "Ann Jones",
-         userIcon: "https://imgs-tuts-dragoart-386112.c.cdn77.org/how-to-draw-katniss-everdeen-katniss-everdeen-hunger-games_1_000000010262_7.jpg",
-         text: "The Claidi Journals follows the life of Claidi, a servant living a harsh life in a house catering to the nobles. She doesn't know what life lies beyond this House, other than a desert that the nobles say is filled with death. But one day, Claidi gets a chance to find out for herself what really is out there. And she takes it. This is where her journal begins."
-        },
-      ]),
-
-      title: "Divergent",
-      coverImage: "https://images.gr-assets.com/books/1328559506l/13335037.jpg",
-      author: {
-        name: "Veronica Roth",
-        image: "https://images.gr-assets.com/authors/1363910238p8/4039811.jpg"
-      },
-      userRating: 0,
+    let reviewsForShownBook = reviewsByBookTitle[bookToShow.title];
+    let reviewsDataSource = ds.cloneWithRows(reviewsForShownBook || []);
+    let currentValues = {
       review: false,
       reviewText: '',
       user: 'You',
+      userRating: 0,
       wantToReadShelf: 'Want to Read',
       wantToReadModalVisible: false,
       reviewModalVisible: false,
       inputValue: "You can change me!"
     };
+    this.state = Object.assign(
+      {dataSource: reviewsDataSource},
+      currentValues,
+      bookToShow);
   }
 
   renderStar = (value, filled) => {
@@ -72,6 +112,9 @@ export default class App extends PureComponent {
         {enabled
           ? this.renderTouchableStar(4, 4 <= initialRating)
           : this.renderStar(4, 4 <= initialRating)}
+        {enabled
+          ? this.renderTouchableStar(5, 5 <= initialRating)
+          : this.renderStar(5, 5 <= initialRating)}
       </View>
     );
   };
@@ -153,10 +196,10 @@ export default class App extends PureComponent {
           <Image
             style={styles.userIcon}
             source={{
-              uri: rowData.userIcon,
+              uri: rowData.reviewerIcon,
             }}
           />
-          <Text style={styles.userInfoText}>{rowData.userName}</Text>
+          <Text style={styles.userInfoText}>{rowData.reviewerName}</Text>
         </View>
         <Text style={styles.reviewText}>{rowData.text}</Text>
         {this.renderDivider()}
@@ -299,7 +342,7 @@ export default class App extends PureComponent {
           <Image
             style={styles.bookCover}
             source={{
-              uri: 'http://www.daughterofthenight.com/tla85a.jpg',
+              uri: this.state.cover,
             }}
           />
           <Text style={styles.title}>
@@ -307,14 +350,14 @@ export default class App extends PureComponent {
           </Text>
 
           <Text style={styles.subtitle}>
-            by Tanith Lee
+            by {this.state.author.name}
           </Text>
 
           {this.renderHorizontalBar()}
           <View style={styles.horizontalLayout}>
-            {this.renderStarRating(3.89, false)}
+            {this.renderStarRating(this.state.averageRating, false)}
             <Text style={styles.subtitle}>
-            3.89 (94,000 ratings)
+            {this.state.averageRating} ({this.state.ratingsCount} ratings)
             </Text>
           </View>
           {this.renderHorizontalBar()}
