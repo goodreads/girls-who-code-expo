@@ -148,14 +148,14 @@ export default class App extends PureComponent {
   
   renderCommunityReview = (rowData) => {
     return (
-      <View styles={styles.communityReview}>
+      <View style={styles.communityReview}>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <Image
             style={styles.userIcon}
             source={{
               uri: rowData.userIcon,
             }}
-          />     
+          />
           <Text style={styles.userInfoText}>{rowData.userName}</Text>
         </View>
         <Text style={styles.reviewText}>{rowData.text}</Text>
@@ -220,9 +220,9 @@ export default class App extends PureComponent {
               multiline={true}
               editable={true}
               onChangeText={(text) => this.setState({reviewText: text})}
-              style={{ width: {windowWidth}, height: 200, padding: 8 }}
+              style={{ height: 200, padding: 8 }}
             />
-            <Button 
+            <Button
               title="Submit"
               onPress={() => {
                   this.setState({ reviewModalVisible: false});
@@ -267,9 +267,9 @@ export default class App extends PureComponent {
     this.setState({ inputValue });
   };
 
- //TODO 1: Change the cover image, book name and author name 
+ //TODO 1: Change the cover image, book name and author name
  
- // TODO 5: Create a Share Button to the right of the Preview button 
+ // TODO 5: Create a Share Button to the right of the Preview button
  
  // TODO 3: Add a color to the Want To Read button. Choose your color here: https://www.w3schools.com/colors/colors_picker.asp
   render() {
@@ -303,7 +303,7 @@ export default class App extends PureComponent {
             }}
           />
           <Text style={styles.title}>
-            {this.state.title} 
+            {this.state.title}
           </Text>
 
           <Text style={styles.subtitle}>
