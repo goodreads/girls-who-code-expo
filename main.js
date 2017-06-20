@@ -49,8 +49,8 @@ const books = [
   }
 ];
 
-// TODO change this to show the book you want
-const bookToShow = books[1];
+// TODO 6: change this to show the book you want
+const bookToShow = books[0];
 
 export default class App extends PureComponent {
   constructor() {
