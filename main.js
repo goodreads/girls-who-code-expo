@@ -52,6 +52,30 @@ const books = [
 // TODO 6: change this to show the book you want
 const bookToShow = books[0];
 
+class Review extends PureComponent {
+  static propTypes = {
+    text: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string.isRequired,
+    image: React.PropTypes.string.isRequired
+  }
+  render = () => {
+    return (
+      <View style={styles.reviewWrapper}>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Image
+              style={styles.userIcon}
+              source={{
+                uri: this.props.image,
+              }}
+          />
+          <Text style={styles.userInfoText}>{this.props.name}</Text>
+        </View>
+        <Text style={styles.reviewText}>{this.props.text}</Text>
+      </View>
+    );
+  }
+}
+
 export default class App extends PureComponent {
   constructor() {
     super();
@@ -119,7 +143,7 @@ export default class App extends PureComponent {
     );
   };
 
-  renderReview = () => {
+  renderMyReview = () => {
     if (this.state.review) {
       return (
         <View style={styles.linearLayout}>
@@ -188,24 +212,6 @@ export default class App extends PureComponent {
       </Picker>
     );
   };
-  
-  renderCommunityReview = (rowData) => {
-    return (
-      <View style={styles.communityReview}>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <Image
-            style={styles.userIcon}
-            source={{
-              uri: rowData.reviewerIcon,
-            }}
-          />
-          <Text style={styles.userInfoText}>{rowData.reviewerName}</Text>
-        </View>
-        <Text style={styles.reviewText}>{rowData.text}</Text>
-        {this.renderDivider()}
-      </View>
-    );
-  };
 
   renderWantToReadWidget = () => {
     return (
@@ -245,7 +251,7 @@ export default class App extends PureComponent {
     );
   };
 
-  renderReviewWidget = () => {
+  renderReviewFormWidget = () => {
     return (
       <Modal
         animationType={'slide'}
@@ -311,9 +317,9 @@ export default class App extends PureComponent {
   };
 
  //TODO 1: Change the cover image, book name and author name
- 
+
  // TODO 5: Create a Share Button to the right of the Preview button
- 
+
  // TODO 3: Add a color to the Want To Read button. Choose your color here: https://www.w3schools.com/colors/colors_picker.asp
   render() {
     return (
@@ -390,13 +396,16 @@ export default class App extends PureComponent {
             color="#D2B48C"
           />
 
-          {this.renderReview()}
-          {this.renderReviewWidget()}
+          {this.renderMyReview()}
+          {this.renderReviewFormWidget()}
 
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={rowData => this.renderCommunityReview(rowData)}
+          {/* Add more reviews here */}
+          <Review
+            name="Laudyss"
+            image='https://images.gr-assets.com/users/1359481258p2/12020704.jpg'
+            text="What is one word I can use to sum up the book hmm... probably AWESOME ! Seriously there isn't a lot of books that can do that (at least for me). Beka Cooper is the most kick butt, cool heroine I've encountered in all my reading days."
           />
+
         </View>
       </ScrollView>
     );
@@ -455,7 +464,9 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
   },
-  communityReview: {
+  reviewWrapper: {
+    alignItems: 'left',
+    width: windowWidth
   },
   reviewText: {
     margin: 20
