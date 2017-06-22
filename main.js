@@ -91,6 +91,7 @@ export default class App extends PureComponent {
       userRating: 0,
       wantToReadShelf: 'Want to Read',
       wantToReadModalVisible: false,
+      previewModalVisible: false,
       reviewModalVisible: false,
       inputValue: "You can change me!"
     };
@@ -301,7 +302,11 @@ export default class App extends PureComponent {
   };
 
   _showPreview = () => {
-    'TODO:  Show Preview';
+    this.setState({previewModalVisible: true});
+  };
+
+  _hidePreview = () => {
+    this.setState({previewModalVisible: false});
   };
 
   _share = () => {
@@ -382,6 +387,13 @@ export default class App extends PureComponent {
             {this.renderStarRating(this.state.userRating, true)}
           </View>
 
+          <Button
+            title="Buy a copy from Amazon"
+            onPress={this._buyACopy}
+            color="#D2B48C"
+          />
+
+          {/* TODO: Add a Preview Button. Hint: copy from the Buy Button above */}
           <View style={styles.horizontalLayout}>
             <Button
               title="Preview"
@@ -390,11 +402,26 @@ export default class App extends PureComponent {
             />
           </View>
 
-          <Button
-            title="Buy a copy from Amazon"
-            onPress={this._buyACopy}
-            color="#D2B48C"
-          />
+          {/* Optional: customize the Preview text */}
+          <Modal
+            animationType={"slide"}
+            transparent={false}
+            visible={this.state.previewModalVisible}
+            >
+           <View style={{marginRight: 20, marginLeft: 20, marginTop: 50}}>
+            <Text style={{fontSize: 24, fontStyle: 'italic', fontFamily: 'Times New Roman', textAlign: 'center', marginBottom: 20}}>Chapter 1</Text>
+            <Text style={{marginTop: 10}}>
+              "But, sir" said Harry, making valiant efforts not to sound argumentative, "it all comes to the same thing, doesn't it? I've got to try and kill him, or - "
+            </Text>
+            <Text style={{marginTop: 10}}>
+              "Got to?" said Dumbledore. "Of course you've got to! But not because of the prophecy! Because you, yourself, will never rest until you've tried! We both know it! Imagine, please, just for a  moment, that you had never heard that prophecy! How would you feel about Voldemort now? Think!"
+            </Text>
+            <Button
+              title="Close Preview"
+              onPress={this._hidePreview}
+            />
+           </View>
+          </Modal>
 
           {this.renderMyReview()}
           {this.renderReviewFormWidget()}
