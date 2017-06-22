@@ -284,6 +284,31 @@ export default class App extends PureComponent {
     );
   };
 
+  renderGenre = () => {
+    var showGenre = () => {
+      'TODO:  Go to Genre page';
+    };
+    var Genres = ['Fantasy', 'Young Adult', 'Fiction', 'Romance', 'Adventure'];
+    var genresShow = Genres.map(function(genreName){
+      return(
+           <Button color="#D2B48C"
+             style={styles.genreNames}
+            title={genreName}
+            onPress={showGenre()}
+          />);
+      });
+    return (
+      <View>
+        <Text style={styles.genres}>
+            Genres
+        </Text>
+        <View style={styles.genreNamesContainer}>
+           {genresShow}
+        </View>
+      </View>
+    );
+  };
+
   _setWTRVisible = () => {
     this.setState({ wantToReadModalVisible: true });
   };
@@ -433,6 +458,9 @@ export default class App extends PureComponent {
             text="What is one word I can use to sum up the book hmm... probably AWESOME ! Seriously there isn't a lot of books that can do that (at least for me). Beka Cooper is the most kick butt, cool heroine I've encountered in all my reading days."
           />
 
+          {this.renderHorizontalBar()}
+          {this.renderGenre()}
+
         </View>
       </ScrollView>
     );
@@ -509,6 +537,20 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginLeft: 20,
     fontSize: 15
+  },
+  genres: {
+    marginTop: 20,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  genreNamesContainer: {
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    flexDirection:'row',
+    justifyContent:'center'
+  },
+  genreNames: {
   }
 });
 
