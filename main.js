@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.50,
     height: windowHeight * 0.43,
     margin: 10,
-    resizeMode: 'stretch',
+    resizeMode: 'contain',
   },
   profileImage: {
     width: 50,
