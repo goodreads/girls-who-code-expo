@@ -1,7 +1,7 @@
 // Exported from snack.expo.io
 import Expo from 'expo';
 import React, { PureComponent } from 'react';
-import { Text, View, StyleSheet, ListView, Image, Dimensions, Button, Alert, ScrollView, Picker, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Image, Dimensions, Button, Alert, ScrollView, Picker, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { Constants, Svg } from 'expo';
 
 /*
@@ -90,9 +90,6 @@ class Review extends PureComponent {
 export default class App extends PureComponent {
   constructor() {
     super();
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
     let currentValues = {
       review: false,
       reviewText: '',
