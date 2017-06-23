@@ -221,7 +221,7 @@ export default class App extends PureComponent {
         transparent={false}
         visible={this.state.wantToReadModalVisible}
         onRequestClose={() => {
-          alert('Modal has been closed.');
+          this.setState({ wantToReadModalVisible: false });
         }}>
         <View style={{ marginTop: 22 }}>
           <View style={styles.linearLayout}>
@@ -292,9 +292,10 @@ export default class App extends PureComponent {
     var genresShow = Genres.map(function(genreName){
       return(
            <Button color="#D2B48C"
-             style={styles.genreNames}
-            title={genreName}
-            onPress={showGenre()}
+                   key={genreName}
+                   style={styles.genreNames}
+                   title={genreName}
+                   onPress={showGenre}
           />);
       });
     return (
@@ -432,6 +433,7 @@ export default class App extends PureComponent {
             animationType={"slide"}
             transparent={false}
             visible={this.state.previewModalVisible}
+            onRequestClose={() => {}}
             >
            <View style={{marginRight: 20, marginLeft: 20, marginTop: 50}}>
             <Text style={{fontSize: 24, fontStyle: 'italic', fontFamily: 'Times New Roman', textAlign: 'center', marginBottom: 20}}>Chapter 1</Text>
@@ -520,7 +522,7 @@ const styles = StyleSheet.create({
     width: 24,
   },
   reviewWrapper: {
-    alignItems: 'left',
+    alignItems: 'flex-start',
     width: windowWidth
   },
   reviewText: {
