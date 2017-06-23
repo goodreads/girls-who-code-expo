@@ -5,6 +5,15 @@ import { Text, View, StyleSheet, Image, Dimensions, Button, Alert, ScrollView, P
 import { Constants, Svg } from 'expo';
 
 /*
+TODO X: Change the star color
+Example color names:
+tomato, olive, aqua, purple, teal
+
+More: https://codepen.io/fgnass/full/afGeB/
+ */
+const FilledStarColor = 'red';
+
+/*
 TODO 1: Change the cover image, book name and author name
 to your group's favorite book.
 */
@@ -107,7 +116,7 @@ export default class App extends PureComponent {
   }
 
   renderStar = (value, filled) => {
-    var fillColor = filled ? 'red' : lightGray;
+    var fillColor = filled ? FilledStarColor : lightGray;
     return (
       <Svg style={styles.iconSize}>
         <Svg.Path d={starVector} stroke="white" fill={fillColor} />
