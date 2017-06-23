@@ -5,21 +5,34 @@ import { Text, View, StyleSheet, ListView, Image, Dimensions, Button, Alert, Scr
 import { Constants, Svg } from 'expo';
 
 
-/* TODO 4: Add your review to the book! Create your complete review with a userName, userIcon and text. Use the sample review as an example. */
-const reviewsByBookTitle = {
-  "Terrier": [
-    {
-      reviewerName: "Laudys",
-      reviewerIcon: "https://images.gr-assets.com/users/1359481258p2/12020704.jpg",
-      text: "What is one word I can use to sum up the book hmm... probably AWESOME ! Seriously there isn't a lot of books that can do that (at least for me). Beka Cooper is the most kick butt, cool heroine I've encountered in all my reading days."
-    },
-    {
-      reviewerName: "Caroline",
-      reviewerIcon: "https://images.gr-assets.com/users/1179332091p2/35781.jpg",
-      text: "This was the last 'for fun' book I got to read before I started teaching last winter. Ever since I arbitrarily grabbed the first of Tamora Pierce's 'Circle of Magic' books off the library shelf two years ago, I've been hooked on the ways Pierce plays around with definitions of magic, power, heroes, and humanism...all within a medieval-ish context."
-    }
-  ]
+/* TODO 3: Change the book data for your group's favorite book. */
+const Book = {
+  title: "Terrier",
+  cover: "https://images.gr-assets.com/books/1398029898l/13829.jpg",
+  author: "Tamora Pierce",
+  averageRating: "4.16",
+  ratingsCount: "49,053",
+  userRating: 0,
+  description: `Hundreds of years before Alanna first drew her sword in
+                Tamora Pierce's memorable debut, Alanna: The First Adventure, Tortall
+                had a heroine named Beka Cooper - a fierce young woman who fights crime
+                in a world of magic. This is the beginning of her story, her legend,
+                and her legacy....`
 };
+
+/* TODO 4: Add your review to the book! Create your complete review with a userName, userIcon and text. Use the sample review as an example. */
+const Reviews = [
+  {
+    reviewerName: "Laudys",
+    reviewerIcon: "https://images.gr-assets.com/users/1359481258p2/12020704.jpg",
+    text: "What is one word I can use to sum up the book hmm... probably AWESOME ! Seriously there isn't a lot of books that can do that (at least for me). Beka Cooper is the most kick butt, cool heroine I've encountered in all my reading days."
+  },
+  {
+    reviewerName: "Caroline",
+    reviewerIcon: "https://images.gr-assets.com/users/1179332091p2/35781.jpg",
+    text: "This was the last 'for fun' book I got to read before I started teaching last winter. Ever since I arbitrarily grabbed the first of Tamora Pierce's 'Circle of Magic' books off the library shelf two years ago, I've been hooked on the ways Pierce plays around with definitions of magic, power, heroes, and humanism...all within a medieval-ish context."
+  }
+];
 
 const books = [
   {
@@ -49,7 +62,6 @@ const books = [
   }
 ];
 
-// TODO 6: change this to show the book you want
 const bookToShow = books[0];
 
 class Review extends PureComponent {
@@ -82,8 +94,7 @@ export default class App extends PureComponent {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-    let reviewsForShownBook = reviewsByBookTitle[bookToShow.title];
-    let reviewsDataSource = ds.cloneWithRows(reviewsForShownBook || []);
+    let reviewsDataSource = ds.cloneWithRows(Reviews);
     let currentValues = {
       review: false,
       reviewText: '',
@@ -98,7 +109,7 @@ export default class App extends PureComponent {
     this.state = Object.assign(
       {dataSource: reviewsDataSource},
       currentValues,
-      bookToShow);
+      Book);
   }
 
   renderStar = (value, filled) => {
@@ -387,7 +398,7 @@ export default class App extends PureComponent {
           </Text>
 
           <Text style={styles.subtitle}>
-            by {this.state.author.name}
+            by {this.state.author}
           </Text>
 
           {this.renderHorizontalBar()}
