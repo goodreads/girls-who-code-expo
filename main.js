@@ -4,9 +4,11 @@ import React, { PureComponent } from 'react';
 import { Text, View, StyleSheet, ListView, Image, Dimensions, Button, Alert, ScrollView, Picker, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { Constants, Svg } from 'expo';
 
-
-/* TODO 3: Change the book data for your group's favorite book. */
-const Book = {
+/*
+TODO 1: Change the cover image, book name and author name
+to your group's favorite book.
+*/
+const BookData = {
   title: "Terrier",
   cover: "https://images.gr-assets.com/books/1398029898l/13829.jpg",
   author: "Tamora Pierce",
@@ -21,48 +23,45 @@ const Book = {
 };
 
 /* TODO 4: Add your review to the book! Create your complete review with a userName, userIcon and text. Use the sample review as an example. */
-const Reviews = [
+const UserReviews = [
   {
-    reviewerName: "Laudys",
-    reviewerIcon: "https://images.gr-assets.com/users/1359481258p2/12020704.jpg",
+    name: "Laudys",
+    image: "https://images.gr-assets.com/users/1359481258p2/12020704.jpg",
     text: "What is one word I can use to sum up the book hmm... probably AWESOME ! Seriously there isn't a lot of books that can do that (at least for me). Beka Cooper is the most kick butt, cool heroine I've encountered in all my reading days."
   },
   {
-    reviewerName: "Caroline",
-    reviewerIcon: "https://images.gr-assets.com/users/1179332091p2/35781.jpg",
+    name: "Caroline",
+    image: "https://images.gr-assets.com/users/1179332091p2/35781.jpg",
     text: "This was the last 'for fun' book I got to read before I started teaching last winter. Ever since I arbitrarily grabbed the first of Tamora Pierce's 'Circle of Magic' books off the library shelf two years ago, I've been hooked on the ways Pierce plays around with definitions of magic, power, heroes, and humanism...all within a medieval-ish context."
   }
 ];
 
-const books = [
-  {
-    title: "Terrier",
-    cover: "https://images.gr-assets.com/books/1398029898l/13829.jpg",
-    author: {
-      name: "Tamora Pierce",
-      image: "https://images.gr-assets.com/authors/1209044273p8/8596.jpg"
-    },
-    publicationYear: "2006",
-    averageRating: "4.16",
-    ratingsCount: "49,053",
-    userRating: 0,
-    description: "Hundreds of years before Alanna first drew her sword in Tamora Pierce's memorable debut, Alanna: The First Adventure, Tortall had a heroine named Beka Cooper - a fierce young woman who fights crime in a world of magic. This is the beginning of her story, her legend, and her legacy....",
-  },
-  {
-    title: "Croak",
-    cover: "https://images.gr-assets.com/books/1479664293l/11836538.jpg",
-    author: {
-      name: "Gina Damico",
-      image: "https://images.gr-assets.com/authors/1317056611p2/4983109.jpg"
-    },
-    publicationYear: "2012",
-    averageRating: "3.93",
-    ratingsCount: "9,350",
-    description: "Hundreds of years before Alanna first drew her sword in Tamora Pierce's memorable debut, Alanna: The First Adventure, Tortall had a heroine named Beka Cooper - a fierce young woman who fights crime in a world of magic. This is the beginning of her story, her legend, and her legacy....",
-  }
-];
+const BookComponent = ({cover, title, author}) =>
+    (
+      <View>
+        <Image
+          style={styles.bookCover}
+          source={{
+            uri: cover,
+          }}
+        />
+        <Text style={styles.title}>
+          {title}
+        </Text>
+      
+        <Text style={styles.subtitle}>
+          by {author}
+        </Text>
+      </View>
+    );
 
-const bookToShow = books[0];
+class ReviewList extends PureComponent {
+  render = () => (
+    <View>
+      {UserReviews.map((review) => <Review key={review.name} {...review} />)}
+    </View>
+  );
+}
 
 class Review extends PureComponent {
   static propTypes = {
@@ -94,7 +93,6 @@ export default class App extends PureComponent {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-    let reviewsDataSource = ds.cloneWithRows(Reviews);
     let currentValues = {
       review: false,
       reviewText: '',
@@ -107,9 +105,8 @@ export default class App extends PureComponent {
       inputValue: "You can change me!"
     };
     this.state = Object.assign(
-      {dataSource: reviewsDataSource},
       currentValues,
-      Book);
+      BookData);
   }
 
   renderStar = (value, filled) => {
@@ -358,7 +355,7 @@ export default class App extends PureComponent {
     this.setState({ inputValue });
   };
 
- //TODO 1: Change the cover image, book name and author name
+ 
 
  // TODO 5: Create a Share Button to the right of the Preview button
 
@@ -387,19 +384,7 @@ export default class App extends PureComponent {
             </Svg.Text>
           </Svg>
 
-          <Image
-            style={styles.bookCover}
-            source={{
-              uri: this.state.cover,
-            }}
-          />
-          <Text style={styles.title}>
-            {this.state.title}
-          </Text>
-
-          <Text style={styles.subtitle}>
-            by {this.state.author}
-          </Text>
+          <BookComponent {...this.state} />
 
           {this.renderHorizontalBar()}
           <View style={styles.horizontalLayout}>
@@ -463,13 +448,8 @@ export default class App extends PureComponent {
 
           {this.renderMyReview()}
           {this.renderReviewFormWidget()}
-
-          {/* Add more reviews here */}
-          <Review
-            name="Laudyss"
-            image='https://images.gr-assets.com/users/1359481258p2/12020704.jpg'
-            text="What is one word I can use to sum up the book hmm... probably AWESOME ! Seriously there isn't a lot of books that can do that (at least for me). Beka Cooper is the most kick butt, cool heroine I've encountered in all my reading days."
-          />
+          
+          {<ReviewList/>}
 
           {this.renderHorizontalBar()}
           {this.renderGenre()}
