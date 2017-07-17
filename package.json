@@ -1,9 +1,10 @@
 {
   "name": "girls-who-code-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React Native App for Girls Who Code Day",
-  "author": null,
-  "private": true,
+  "author": "Amazon.com Inc",
+  "private": false,
+  "license": "Apache 2.0"
   "main": "main.js",
   "dependencies": {
     "expo": "^16.0.0",
